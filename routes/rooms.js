@@ -82,6 +82,7 @@ router.post("/createRoom",async (req, res) => {
         };
         console.log(booking)
         bookingRoom.push(booking);
+        console.log(bookingRoom)
         res.status(200).json({
           message: "Succesfully Booked Room",
           BookingRoom: booking,
@@ -129,8 +130,8 @@ router.post("/createRoom",async (req, res) => {
     try {
       const customerList = bookingRoom.map((booking) => {
         return {
-          Customer_Name: booking.customer_name,
-          room_Name:  booking.room_name,
+          customer_Name: booking.customer_name,
+          room_name:  booking.room_name,
           Date: booking.date,
           start_time: booking.start_time,
           end_time: booking.end_time,
