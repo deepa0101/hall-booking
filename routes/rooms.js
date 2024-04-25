@@ -99,7 +99,7 @@ router.post("/createRoom",async (req, res) => {
 
    router.get("/bookedRoom", async (req, res) => {
     try {
-      let roomList = book.map((room) => {
+      let roomList = rooms.map((room) => {
         let booking = bookingRoom.find(
           (booking) => booking.roomID === room.room_id
         );
@@ -117,6 +117,7 @@ router.post("/createRoom",async (req, res) => {
         roomList,
       });
     } catch (error) {
+      console.log(error)
       res.status(500).json({
         comment: "Internel server error",
       });
