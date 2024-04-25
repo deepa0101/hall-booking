@@ -99,16 +99,17 @@ router.post("/createRoom",async (req, res) => {
 
    router.get("/bookedRoom", async (req, res) => {
     try {
-      let roomList = bookingRoom.map((room) => {
+      let roomList = book.map((room) => {
+        let booking = bookingRoom.find(
           (booking) => booking.roomID === room.room_id
-        
+        );
         return {
-          room_name: room.room_name,
-          bookedStatus: room.bookedStatus,
-          customer_name: room.customer_name,
-          date:  room.date,
-          start_time: room.start_time,
-          end_time: room.end_time,
+          roomName: room.room_name,
+          bookedStatus: booking ? "Booked" : "Available",
+          customerName: booking ? booking.customer_name : null,
+          date: booking ? booking.Date : null,
+          startTime: booking ? booking.start_time : null,
+          endTime: booking ? booking.end_time : null,
         };
       });
       res.status(200).json({
@@ -122,7 +123,7 @@ router.post("/createRoom",async (req, res) => {
     }
   })
   
-  //ALL CUSTOMER WITH ROOM DATA
+ 
   router.get("/getAllCustomerData", async (req, res) => {
     try {
       const customerList = bookingRoom.map((booking) => {
@@ -155,7 +156,6 @@ router.post("/createRoom",async (req, res) => {
         return e.customer_name === customer_name;
       });
       console.log("Customer Booking:", customerBooking); 
-  
       res.status(200).json({
         message: "Successfully fetched",
         customer_name,
