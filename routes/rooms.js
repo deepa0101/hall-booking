@@ -61,7 +61,6 @@ router.post("/createRoom",async (req, res) => {
  router.post("/bookRoom" ,async (req, res) => {
     try {
       let { customer_name, start_time, end_time, roomID } = req.body;
-      console.log(roomID)
       let date = format(new Date(), "dd-MM-yyyy");
       let room = rooms.filter((e) => e.room_status === "available" && parseInt(e.room_id) == parseInt(roomID));
       console.log(room)
@@ -100,17 +99,16 @@ router.post("/createRoom",async (req, res) => {
 
    router.get("/bookedRoom", async (req, res) => {
     try {
-      let roomList = rooms.map((room) => {
-        let booking = bookingRoom.find(
+      let roomList = bookingRoom.map((room) => {
           (booking) => booking.roomID === room.room_id
-        );
+        
         return {
-          roomName: room.room_name,
-          bookedStatus: booking ? "Booked" : "Available",
-          customerName: booking ? booking.customer_name : null,
-          date: booking ? booking.Date : null,
-          startTime: booking ? booking.start_time : null,
-          endTime: booking ? booking.end_time : null,
+          room_name: room.room_name,
+          bookedStatus: room.bookedStatus,
+          customer_name: room.customer_name,
+          date:  room.date,
+          start_time: room.start_time,
+          end_time: room.end_time,
         };
       });
       res.status(200).json({
@@ -151,12 +149,12 @@ router.post("/createRoom",async (req, res) => {
    router.get("/bookedCount", async (req, res) => {
     try {
       const { customer_name } = req.body;
-      console.log("Requested Customer Name:", customer_name); // Log the requested customer name
+      console.log("Requested Customer Name:", customer_name); 
       const customerBooking = bookingRoom.filter((e) => {
-        console.log("Booking Customer Name:", e.customer_name); // Log each booking's customer name
+        console.log("Booking Customer Name:", e.customer_name); 
         return e.customer_name === customer_name;
       });
-      console.log("Customer Booking:", customerBooking); // Log the resulting customer bookings
+      console.log("Customer Booking:", customerBooking); 
   
       res.status(200).json({
         message: "Successfully fetched",
@@ -165,7 +163,7 @@ router.post("/createRoom",async (req, res) => {
         bookings: bookingRoom,
       });
     } catch (error) {
-      console.error("Error in bookCount:", error); // Log any errors that occur
+      console.error("Error in bookCount:", error); 
       res.status(500).json({
         comment: "Internal server error",
       });
