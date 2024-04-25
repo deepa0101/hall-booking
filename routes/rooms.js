@@ -104,12 +104,12 @@ router.post("/createRoom",async (req, res) => {
           (booking) => booking.roomID === room.room_id
         );
         return {
-          roomName: room.room_name,
+          room_name: room.room_name,
           bookedStatus: booking ? "Booked" : "Available",
-          customerName: booking ? booking.customer_name : null,
+          customer_name: booking ? booking.customer_name : null,
           date: booking ? booking.Date : null,
-          startTime: booking ? booking.start_time : null,
-          endTime: booking ? booking.end_time : null,
+          start_time: booking ? booking.start_time : null,
+          end_time: booking ? booking.end_time : null,
         };
       });
       res.status(200).json({
@@ -127,11 +127,10 @@ router.post("/createRoom",async (req, res) => {
   router.get("/getAllCustomerData", async (req, res) => {
     try {
       const customerList = bookingRoom.map((booking) => {
-        const room = rooms.find((r) => r.room_id === booking.roomID);
         return {
           Customer_Name: booking.customer_name,
-          Room_Name: room ? rooms.room_name : null,
-          Date: booking.Date,
+          room_Name:  booking.room_name,
+          Date: booking.date,
           start_time: booking.start_time,
           end_time: booking.end_time,
         };
@@ -141,6 +140,7 @@ router.post("/createRoom",async (req, res) => {
         customerList,
       });
     } catch (error) {
+      console.log(error)
       res.status(500).json({
         comment: "Internel server error",
       });
